@@ -22,7 +22,7 @@ def fix(filepath):
     try:
         audio = ID3(filepath)
         if APIC_KEY not in audio.keys():
-            print(f"skip: {filepath}")
+            print(f'skip: {filepath}')
             return
         image_data = audio[APIC_KEY].data
         image = Image.open(io.BytesIO(image_data))
@@ -35,10 +35,9 @@ def fix(filepath):
                 data=output.getvalue(),
             )
             audio.save()
-        print(f"fix: {filepath}")
+        print(f'fix: {filepath}')
     except ID3NoHeaderError as e:
-        print(e)
-        print(f"ignore: {filepath}")
+        print(f'ignore: {filepath} -- {e}')
 
 
 def fix_files(files, parent_dir):
