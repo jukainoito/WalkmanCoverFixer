@@ -16,11 +16,20 @@ CURRENT_DIR_PATH = os.getcwd()
 INPUT_FILES = args.files
 
 
+def get_mimetype(filepath):
+    try:
+        import magic
+        return magic.from_file(filepath, mime=True)
+    except ImportError:
+        mimetype, subtype = mimetypes.guess_type(filepath)
+        return mimetype
+
+
 def fix_files(files, parent_dir):
     for file in files:
         path = os.path.join(parent_dir, file)
         if os.path.isfile(path):
-            mimetype, subtype = mimetypes.guess_type(path)
+            mimetype = get_mimetype(path)
             fix(path, mimetype)
             continue
         if os.path.isdir(path):
