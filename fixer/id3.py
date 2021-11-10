@@ -11,10 +11,14 @@ class ID3Fixer(Fixer):
     def fix(self, filepath):
         try:
             audio = ID3(filepath)
+            image_data = None
             if APIC_KEY not in audio.keys():
-                print(f'skip: {filepath}')
-                return
-            image_data = audio[APIC_KEY].data
+                if self.cover is None:
+                    print(f'skip: {filepath}')
+                    return
+                else:
+                    image_data = self.cover
+            image_data = audio[APIC_KEY].data if image_data is None else image_data
             fixed_image_data, mimetype = fix_image(image_data)
             if fixed_image_data is not None:
                 audio.delall(APIC_KEY)

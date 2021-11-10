@@ -12,5 +12,5 @@
 
 ## 使用
 ```bash
-python main.py files [files ...]
+python main.py [-cover COVER] files [files ...]
 ```
